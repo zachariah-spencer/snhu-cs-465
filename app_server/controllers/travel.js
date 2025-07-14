@@ -1,5 +1,5 @@
 /* GET Homepage */
-const index = (req, res) => {
+const travel = (req, res) => {
     res.render('travel', { title: "Travlr Getaways"});
 };
 
