@@ -4,7 +4,7 @@ import { trips } from '../data/trips';
 
 @Component({
   selector: 'app-trip-listing',
-  imports: [ JsonPipe, CurrencyPipe ],
+  imports: [ JsonPipe, CurrencyPipe, CommonModule ],
   templateUrl: './trip-listing.html',
   styleUrl: './trip-listing.css'
 })

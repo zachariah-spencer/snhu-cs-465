@@ -1,6 +1,6 @@
 <!-- <pre>{{trips | json}}</pre> -->
 <div class="row">
-    <div *ngFor="let trip of trips">
+    <div *ngFor="let trip of trips" class="col-3">
         <div class="card ml-4" style="width: 18rem;">
             <div class="card-header">{{ trip.name }}</div>
             <img src="assets/images/{{ trip.image }}"
