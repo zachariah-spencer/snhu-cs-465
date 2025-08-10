@@ -6,6 +6,8 @@ router.route('/trips')
     .get(tripsController.tripsList) // GET Method routes tripsList
     .post(tripsController.tripsAddTrip); // POST Method adds a trip
 
-router.route("/trips/:tripCode").get(tripsController.tripsFindByCode); // GET Method routes tripsFindBycode - requires a parameter
+router.route("/trips/:tripCode")
+    .get(tripsController.tripsFindByCode) // GET Method routes tripsFindBycode - requires a parameter
+    .put(tripsController.tripsUpdateTrip); // PUT Method routes tripsUpdateTrip - requires a parameter(s)
 
-module.exports = router;
+    module.exports = router;
