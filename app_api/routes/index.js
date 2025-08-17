@@ -15,6 +15,6 @@ router
 router
   .route("/trips/:tripCode")
   .get(tripsController.tripsFindByCode) // GET Method routes tripsFindBycode - requires a parameter
-  .put(tripsController.tripsUpdateTrip); // PUT Method routes tripsUpdateTrip - requires a parameter(s)
+  .put(authenticateJWT, tripsController.tripsUpdateTrip); // PUT Method routes tripsUpdateTrip - requires a parameter(s)
 
 module.exports = router;
