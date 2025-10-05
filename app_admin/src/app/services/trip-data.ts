@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Trip } from '../models/trip';
 import { User } from '../models/user';
@@ -45,7 +45,12 @@ export class TripData {
     );
   }
 
-  getTrips(): Observable<Trip[]> {
+  getTrips(maxBudget?: number): Observable<Trip[]> {
+    if (maxBudget !== undefined) {
+      const params = new HttpParams().set('maxBudget', maxBudget.toString());
+      return this.http.get<Trip[]>(this.url, { params });
+    }
+
     return this.http.get<Trip[]>(this.url);
   }
 

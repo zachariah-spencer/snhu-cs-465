@@ -1,7 +1,27 @@
-<!-- <pre>{{trips | json}}</pre> -->
-<div *ngIf="isLoggedIn()">
-  <button (click)="addTrip()" class="btn btn-info">Add Trip</button>
+<!-- <pre>{{ trips | json }}</pre> -->
+<div class="row align-items-end mb-3">
+  <div class="col-12 col-md-4">
+    <label for="maxBudget" class="form-label fw-semibold">Maximum Budget</label>
+    <input
+      id="maxBudget"
+      type="number"
+      class="form-control"
+      min="0"
+      placeholder="Enter amount in USD"
+      [(ngModel)]="maxBudget"
+      (ngModelChange)="applyBudgetFilter()"
+    />
+  </div>
+  <div
+    class="col-12 col-md-auto mt-3 mt-md-0 text-md-end"
+    *ngIf="isLoggedIn()"
+  >
+    <button (click)="addTrip()" class="btn btn-info">Add Trip</button>
+  </div>
 </div>
+
+<p class="text-muted" *ngIf="message">{{ message }}</p>
+
 <div class="row">
   <div *ngFor="let trip of trips" class="col-3">
     <app-trip-card [trip]="trip" class="card-deck mt-2"></app-trip-card>

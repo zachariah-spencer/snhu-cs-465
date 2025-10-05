@@ -6,19 +6,56 @@ const Model = mongoose.model('trips');
 // Regardless of outcomes, response must include HTML status code
 // and JSON message to the requesting client
 const tripsList = async(req, res) => {
-    const q = await Model.find({}).exec(); // No filtering, return all records
-    // Uncomment if debugging response
-    // console.log(q);
+    try {
+        const rawMaxBudget = req.query.maxBudget;
+        let queryResult = [];
 
-    if (!q)
-    { // No data returned from database
-        return res
-            .status(404)
-            .json(err);
-    } else { // Return resulting trip list
+        if (rawMaxBudget !== undefined) {
+            const parsedBudget = parseFloat(rawMaxBudget);
+
+            if (Number.isNaN(parsedBudget)) {
+                return res
+                    .status(400)
+                    .json({ message: 'maxBudget must be a valid number.' });
+            }
+
+            queryResult = await Model.find({
+                $expr: {
+                    $let: {
+                        vars: {
+                            price: {
+                                $convert: {
+                                    input: '$perPerson',
+                                    to: 'double',
+                                    onError: null,
+                                    onNull: null
+                                }
+                            }
+                        },
+                        in: {
+                            $and: [
+                                { $ne: ['$$price', null] },
+                                { $lte: ['$$price', parsedBudget] }
+                            ]
+                        }
+                    }
+                }
+            }).exec();
+        } else {
+            queryResult = await Model.find({}).exec(); // No filtering, return all records
+        }
+
+        // Uncomment if debugging response
+        // console.log(queryResult);
+
         return res
             .status(200)
-            .json(q);
+            .json(queryResult);
+    } catch (err) {
+        console.error('Error retrieving trips', err);
+        return res
+            .status(500)
+            .json({ message: 'Failed to retrieve trips.', error: err.message });
     }
 };
 
